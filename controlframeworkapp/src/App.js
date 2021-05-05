@@ -40,7 +40,7 @@ class App extends React.Component {
 
   toggleChecked(id) {
     console.log("yo"+id);
-    /*
+
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -57,15 +57,13 @@ class App extends React.Component {
       })
 
       this.setState({questions: questions})
-      */
-      
   }
 
   render() {
     let questionList = this.state.questions.map((entry) =>
       <li key={entry.id} className="todo stack-small">
         <div className="c-cb">
-          <input type="checkbox" defaultChecked={entry.checked} onChange={this.toggleChecked(entry.id)} />
+          <input type="checkbox" defaultChecked={entry.checked} onChange={() => this.toggleChecked(entry.id)} />
           <label className="todo-label">
             {entry.description}
           </label>
