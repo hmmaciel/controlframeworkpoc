@@ -32,6 +32,10 @@ public class Question {
         return question;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     public boolean isChecked() { return isChecked; }
 
     public void addCheck() { this.isChecked = !isChecked; }

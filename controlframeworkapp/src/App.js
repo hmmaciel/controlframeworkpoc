@@ -7,18 +7,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       error: null,
-      greeting: 'placeholder'
+      questions: []
     };
   }
 
   componentDidMount() {
-    fetch("/greeting")
+    //THIS IS HARDCODED :c
+    fetch("/templates/5")
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
-            greeting: result.content
+            questions: result.questions.map(entry => ({
+              id: entry.id,
+              description: entry.question,
+              category: entry.category,
+              checked: entry.checked,
+            }))
           });
+          //console.log(result.questions);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -31,100 +38,50 @@ class App extends React.Component {
       )
   }
 
+  toggleChecked(id) {
+    console.log("yo"+id);
+    /*
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    fetch('/questions/' + id, requestOptions)
+      .then(response => response.json());
+
+      let questions = this.state.questions;
+
+      questions.map(q => {
+        if(q.id == id){
+          q.checked = !q.checked;
+        }
+      })
+
+      this.setState({questions: questions})
+      */
+      
+  }
+
   render() {
+    let questionList = this.state.questions.map((entry) =>
+      <li key={entry.id} className="todo stack-small">
+        <div className="c-cb">
+          <input type="checkbox" defaultChecked={entry.checked} onChange={this.toggleChecked(entry.id)} />
+          <label className="todo-label">
+            {entry.description}
+          </label>
+        </div>
+      </li>
+    )
+
     return (
       <div className="todoapp stack-large">
-        <h1>{this.state.greeting}</h1>
-        <form>
-          <h2 className="label-wrapper">
-            <label htmlFor="new-todo-input" className="label__lg">
-              What needs to be done?
-          </label>
-          </h2>
-          <input
-            type="text"
-            id="new-todo-input"
-            className="input input__lg"
-            name="text"
-            autoComplete="off"
-          />
-          <button type="submit" className="btn btn__primary btn__lg">
-            Add
-        </button>
-        </form>
-        <div className="filters btn-group stack-exception">
-          <button type="button" className="btn toggle-btn" aria-pressed="true">
-            <span className="visually-hidden">Show </span>
-            <span>all</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-          <button type="button" className="btn toggle-btn" aria-pressed="false">
-            <span className="visually-hidden">Show </span>
-            <span>Active</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-          <button type="button" className="btn toggle-btn" aria-pressed="false">
-            <span className="visually-hidden">Show </span>
-            <span>Completed</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-        </div>
-        <h2 id="list-heading">
-          3 tasks remaining
-      </h2>
+        <h1>Security Controls Framework</h1>
         <ul
           role="list"
           className="todo-list stack-large stack-exception"
           aria-labelledby="list-heading"
         >
-          <li className="todo stack-small">
-            <div className="c-cb">
-              <input id="todo-0" type="checkbox" defaultChecked={true} />
-              <label className="todo-label" htmlFor="todo-0">
-                Eat
-            </label>
-            </div>
-            <div className="btn-group">
-              <button type="button" className="btn">
-                Edit <span className="visually-hidden">Eat</span>
-              </button>
-              <button type="button" className="btn btn__danger">
-                Delete <span className="visually-hidden">Eat</span>
-              </button>
-            </div>
-          </li>
-          <li className="todo stack-small">
-            <div className="c-cb">
-              <input id="todo-1" type="checkbox" />
-              <label className="todo-label" htmlFor="todo-1">
-                Sleep
-            </label>
-            </div>
-            <div className="btn-group">
-              <button type="button" className="btn">
-                Edit <span className="visually-hidden">Sleep</span>
-              </button>
-              <button type="button" className="btn btn__danger">
-                Delete <span className="visually-hidden">Sleep</span>
-              </button>
-            </div>
-          </li>
-          <li className="todo stack-small">
-            <div className="c-cb">
-              <input id="todo-2" type="checkbox" />
-              <label className="todo-label" htmlFor="todo-2">
-                Repeat
-            </label>
-            </div>
-            <div className="btn-group">
-              <button type="button" className="btn">
-                Edit <span className="visually-hidden">Repeat</span>
-              </button>
-              <button type="button" className="btn btn__danger">
-                Delete <span className="visually-hidden">Repeat</span>
-              </button>
-            </div>
-          </li>
+          {questionList}
         </ul>
       </div>
     );
