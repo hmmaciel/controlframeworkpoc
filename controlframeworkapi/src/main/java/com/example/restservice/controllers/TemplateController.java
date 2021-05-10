@@ -1,11 +1,9 @@
 package com.example.restservice.controllers;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
-import com.example.restservice.model.Question;
 import com.example.restservice.model.Template;
-import com.example.restservice.repositories.QuestionRepository;
+import com.example.restservice.model.User;
 import com.example.restservice.repositories.TemplateRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +21,8 @@ public class TemplateController {
         return (List<Template>) repository.findAll();
     }
 
-    @GetMapping("/templates/{id}")
-    public Template getTemplateById(@PathVariable Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Could not find template " + id));
+    @GetMapping("/templates/{email}")
+    public Template getTemplateByEmail(@PathVariable String email) {
+        return repository.findByUser(new User(email));
     }
 }

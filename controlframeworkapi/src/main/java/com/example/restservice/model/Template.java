@@ -11,12 +11,15 @@ public class Template {
     private long id;
     @OneToMany
     private List<Question> questions;
+    @OneToOne
+    private User user;
 
     protected Template() {}
 
-    public Template(List<Question> questions) {
+    public Template(List<Question> questions, User user) {
         this.id = id;
         this.questions = questions;
+        this.user = user;
     }
 
     public long getId() {
@@ -25,5 +28,9 @@ public class Template {
 
     public List<Question> getQuestions() {
         return questions;
+    }
+
+    public String getEmail() {
+        return user.getEmail();
     }
 }
