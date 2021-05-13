@@ -34,6 +34,7 @@ public class GreetingControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	/*
 	@Test
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
@@ -48,5 +49,6 @@ public class GreetingControllerTests {
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 	}
+	 */
 
 }
