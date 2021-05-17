@@ -1,7 +1,7 @@
-resource "aws_internet_gateway" "poc-env-gw" {
-  vpc_id = aws_vpc.poc-env.id
+resource "aws_internet_gateway" "app-vpc-gw" {
+  vpc_id = aws_vpc.app-vpc.id
 
   tags = {
-    Name = "poc-env-gw"
+    Name = "app-vpc-gw"
   }
 }
