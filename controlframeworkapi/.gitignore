@@ -45,3 +45,6 @@ atlassian-ide-plugin.xml
 # VS Code
 .vscode/
 .vs/
+
+# Terraform
+*.tfstate
