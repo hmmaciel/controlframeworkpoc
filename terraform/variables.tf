@@ -33,3 +33,7 @@ variable "subnet_database_range2" {
   type        = string
   default     = "10.0.3.0/24"
 }
+
+variable "bucket_name" {
+  default = "framework-poc-s3-bucket"
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import './Checklist.css';
 import '../index.css';
+const { REACT_APP_API_URL } = process.env;
 
 class Checklist extends React.Component {
 
@@ -13,7 +14,7 @@ class Checklist extends React.Component {
   }
 
   componentDidMount() {
-    fetch("/templates/" + this.props.location.state.email)
+    fetch(REACT_APP_API_URL + "/templates/" + this.props.location.state.email)
       .then(res => res.json())
       .then(
         (result) => {
@@ -25,7 +26,6 @@ class Checklist extends React.Component {
               checked: entry.checked,
             }))
           });
-          //console.log(result.questions);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -43,7 +43,7 @@ class Checklist extends React.Component {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     };
-    fetch('/questions/' + id, requestOptions)
+    fetch(REACT_APP_API_URL + '/questions/' + id, requestOptions)
       .then(response => response.json());
 
       let questions = this.state.questions;

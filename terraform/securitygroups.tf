@@ -58,9 +58,10 @@ resource "aws_security_group" "subnet-database-sg" {
 
   # Allow all outbound traffic
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = var.rds_port
+    to_port     = var.rds_port
+    protocol    = "tcp"
+    description = "MySQL"
+    cidr_blocks = [var.subnet_backend_range]
   }
 }
