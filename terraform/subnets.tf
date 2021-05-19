@@ -4,7 +4,7 @@ resource "aws_subnet" "subnet-backend" {
   vpc_id     = aws_vpc.app-vpc.id
 }
 
-resource "aws_route_table" "route-table-subnet-backend" {
+resource "aws_route_table" "vpc-route-table" {
   vpc_id = aws_vpc.app-vpc.id
 
   route {
@@ -19,7 +19,7 @@ resource "aws_route_table" "route-table-subnet-backend" {
 
 resource "aws_route_table_association" "subnet-association" {
   subnet_id      = aws_subnet.subnet-backend.id
-  route_table_id = aws_route_table.route-table-subnet-backend.id
+  route_table_id = aws_route_table.vpc-route-table.id
 }
 
 

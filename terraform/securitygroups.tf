@@ -5,6 +5,7 @@ resource "aws_security_group" "subnet-backend-sg" {
 
   # Allow RDS Database communication
   ingress {
+    //security_groups = aws_security_group.subnet-database-sg.id
     from_port   = var.rds_port
     to_port     = var.rds_port
     protocol    = "tcp"
@@ -47,21 +48,23 @@ resource "aws_security_group" "subnet-database-sg" {
   name   = "rds-sg"
   vpc_id = aws_vpc.app-vpc.id
 
-  # Only MySQL in
+  # Only MySQL in from Backend Security Group
   ingress {
-    from_port   = var.rds_port
-    to_port     = var.rds_port
-    protocol    = "tcp"
-    description = "MySQL"
-    cidr_blocks = [var.subnet_backend_range]
+    security_groups = [aws_security_group.subnet-backend-sg.id]
+    from_port       = var.rds_port
+    to_port         = var.rds_port
+    protocol        = "tcp"
+    description     = "MySQL"
+    //cidr_blocks = [var.subnet_backend_range]
   }
 
-  # Allow all outbound traffic
+  # Only MySQL out to Backend Security Group
   egress {
-    from_port   = var.rds_port
-    to_port     = var.rds_port
-    protocol    = "tcp"
-    description = "MySQL"
-    cidr_blocks = [var.subnet_backend_range]
+    security_groups = [aws_security_group.subnet-backend-sg.id]
+    from_port       = var.rds_port
+    to_port         = var.rds_port
+    protocol        = "tcp"
+    description     = "MySQL"
+    //cidr_blocks = [var.subnet_backend_range]
   }
 }
