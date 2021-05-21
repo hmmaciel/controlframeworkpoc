@@ -37,3 +37,27 @@ variable "subnet_database_range2" {
 variable "bucket_name" {
   default = "framework-poc-s3-bucket"
 }
+
+variable "rest_api_domain_name" {
+  default     = "framework-poc.com"
+  description = "Domain name of the API Gateway REST API for self-signed TLS certificate"
+  type        = string
+}
+
+variable "rest_api_name" {
+  default     = "framework-poc-api"
+  description = "Name of the API Gateway REST API (can be used to trigger redeployments)"
+  type        = string
+}
+
+variable "get_api_path" {
+  default     = "/templates/{email}"
+  description = "Path to create in the API Gateway REST API (can be used to trigger redeployments)"
+  type        = string
+}
+
+variable "put_api_path" {
+  default     = "/questions/{questionId}"
+  description = "Path to create in the API Gateway REST API (can be used to trigger redeployments)"
+  type        = string
+}

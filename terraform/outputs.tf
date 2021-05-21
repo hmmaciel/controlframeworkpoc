@@ -11,19 +11,16 @@ output "instance_public_ip" {
 output "rds_hostname" {
   description = "RDS instance hostname"
   value       = aws_db_instance.poc_db.address
-  sensitive   = true
 }
 
 output "rds_port" {
   description = "RDS instance port"
   value       = aws_db_instance.poc_db.port
-  sensitive   = true
 }
 
 output "rds_username" {
   description = "RDS instance root username"
   value       = aws_db_instance.poc_db.username
-  sensitive   = true
 }
 
 output "website_domain" {
@@ -32,4 +29,16 @@ output "website_domain" {
 
 output "website_endpoint" {
   value = aws_s3_bucket.react_bucket.website_endpoint
+}
+
+output "api_gateway_url" {
+  depends_on = [aws_api_gateway_base_path_mapping.api]
+
+  description = "API Gateway Domain URL (self-signed certificate)"
+  value       = "https://${aws_api_gateway_domain_name.api.regional_domain_name}"
+}
+
+output "curl_stage_invoke_url" {
+  description = "API Gateway Stage Invoke URL"
+  value       = aws_api_gateway_stage.api.invoke_url
 }

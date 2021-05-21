@@ -6,24 +6,12 @@ resource "aws_kms_key" "mykey" {
 */
 
 # Get current user ID logged into AWS CLI
-data "aws_canonical_user_id" "current_user" {}
+// data "aws_canonical_user_id" "current_user" {}
 
 resource "aws_s3_bucket" "react_bucket" {
   bucket        = var.bucket_name
+  acl           = "private"
   force_destroy = true
-
-  # Grant current user full control of bucket
-  grant {
-    id          = data.aws_canonical_user_id.current_user.id
-    type        = "CanonicalUser"
-    permissions = ["FULL_CONTROL"]
-  }
-
-  grant {
-    type        = "Group"
-    permissions = ["READ", "WRITE"]
-    uri         = "http://acs.amazonaws.com/groups/s3/LogDelivery"
-  }
 
   website {
     index_document = "index.html"
@@ -43,31 +31,16 @@ resource "aws_s3_bucket" "react_bucket" {
   */
 }
 
-# S3 Bucket policy for blocking user access via IP
-resource "aws_s3_bucket_policy" "react_bucket_policy" {
+resource "aws_s3_bucket_policy" "react_bucket" {
+  bucket = aws_s3_bucket.react_bucket.id
+  policy = data.aws_iam_policy_document.s3_iam_doc.json
+}
+
+resource "aws_s3_bucket_public_access_block" "react_bucket" {
   bucket = aws_s3_bucket.react_bucket.id
 
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression's result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Id      = "MYBUCKETPOLICY"
-    Statement = [
-      {
-        Sid       = "IPAllow"
-        Effect    = "Allow"
-        Principal = "*"
-        Action    = "s3:GetObject"
-        Resource = [
-          aws_s3_bucket.react_bucket.arn,
-          "${aws_s3_bucket.react_bucket.arn}/*",
-        ]
-        Condition = {
-          IpAddress = {
-            "aws:SourceIp" = "8.8.8.8/32"
-          }
-        }
-      },
-    ]
-  })
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = false
 }
