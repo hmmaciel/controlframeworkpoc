@@ -33,6 +33,11 @@ resource "aws_api_gateway_rest_api" "api" {
               }
             }
           ],
+          "security" : [
+            {
+              "api_key" : []
+            }
+          ],
           x-amazon-apigateway-integration = {
             "uri" : "http://${aws_instance.api_server.public_ip}:8080/templates/{email}",
             "httpMethod" : "GET",
@@ -61,6 +66,11 @@ resource "aws_api_gateway_rest_api" "api" {
               }
             }
           ],
+          "security" : [
+            {
+              "api_key" : []
+            }
+          ],
           x-amazon-apigateway-integration = {
             uri = "http://${aws_instance.api_server.public_ip}:8080/questions/{questionId}"
             "httpMethod" : "PUT",
@@ -75,6 +85,15 @@ resource "aws_api_gateway_rest_api" "api" {
             "passthroughBehavior" : "when_no_match",
             "type" : "http_proxy"
           }
+        }
+      }
+    },
+    "components" : {
+      "securitySchemes" : {
+        "api_key" : {
+          "type" : "apiKey",
+          "name" : "x-api-key",
+          "in" : "header"
         }
       }
     }
@@ -143,4 +162,23 @@ resource "tls_self_signed_cert" "api" {
 resource "aws_acm_certificate" "api" {
   certificate_body = tls_self_signed_cert.api.cert_pem
   private_key      = tls_private_key.api.private_key_pem
+}
+
+resource "aws_api_gateway_usage_plan" "cloudfront_usage_plan" {
+  name = "cloudfront_usage_plan"
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.api.id
+    stage  = aws_api_gateway_stage.api.stage_name
+  }
+}
+
+resource "aws_api_gateway_api_key" "cloudfront_api_key" {
+  name = "api_key"
+}
+
+resource "aws_api_gateway_usage_plan_key" "cloudfront_usage_plan_key" {
+  key_id        = aws_api_gateway_api_key.cloudfront_api_key.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.cloudfront_usage_plan.id
 }

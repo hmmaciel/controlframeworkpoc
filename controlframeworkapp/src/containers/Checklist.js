@@ -1,7 +1,6 @@
 import React from 'react';
 import './Checklist.css';
 import '../index.css';
-const { REACT_APP_API_URL } = process.env;
 
 class Checklist extends React.Component {
 
@@ -14,7 +13,7 @@ class Checklist extends React.Component {
   }
 
   componentDidMount() {
-    fetch(REACT_APP_API_URL + "/templates/" + this.props.location.state.email)
+    fetch("/api/templates/" + this.props.location.state.email)
       .then(res => res.json())
       .then(
         (result) => {
@@ -43,7 +42,7 @@ class Checklist extends React.Component {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     };
-    fetch(REACT_APP_API_URL + '/questions/' + id, requestOptions)
+    fetch('/api/questions/' + id, requestOptions)
       .then(response => response.json());
 
       let questions = this.state.questions;
