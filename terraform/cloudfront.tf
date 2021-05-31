@@ -67,8 +67,8 @@ resource "aws_cloudfront_distribution" "cloudfront" {
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
 
-    min_ttl     = 0
-    max_ttl     = 0
+    min_ttl = 0
+    max_ttl = 0
 
     forwarded_values {
       query_string = true

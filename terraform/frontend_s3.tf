@@ -44,3 +44,8 @@ resource "aws_s3_bucket_public_access_block" "react_bucket" {
   ignore_public_acls      = true
   restrict_public_buckets = false
 }
+
+resource "aws_s3_bucket_metric" "react_bucket" {
+  bucket = aws_s3_bucket.react_bucket.bucket
+  name   = "EntireBucket"
+}
