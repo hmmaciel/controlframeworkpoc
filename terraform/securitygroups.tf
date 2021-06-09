@@ -26,7 +26,7 @@ resource "aws_security_group" "subnet-backend-sg" {
   # Allow Tomcat port communication
   ingress {
     cidr_blocks = [
-      var.allowed_ips
+      "0.0.0.0/0"
     ]
     from_port   = 8080
     to_port     = 8080

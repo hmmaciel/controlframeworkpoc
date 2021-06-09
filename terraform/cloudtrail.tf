@@ -1,10 +1,10 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "cloudtrail" {
-  name                          = "cloudtrail"
-  s3_bucket_name                = aws_s3_bucket.cloudtrail-bucket.id
-  s3_key_prefix                 = "CloudTrailLogs"
-  include_global_service_events = false
+  name           = "cloudtrail"
+  s3_bucket_name = aws_s3_bucket.cloudtrail-bucket.id
+  s3_key_prefix  = "CloudTrailLogs"
+  # include_global_service_events = false
   # kms_key_id                    = aws_kms_key.cloudtrail-key.arn
 
   event_selector {
