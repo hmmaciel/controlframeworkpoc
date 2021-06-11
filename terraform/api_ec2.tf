@@ -10,5 +10,7 @@ resource "aws_instance" "api_server" {
     Name = var.instance_name
   }
 
-  subnet_id = aws_subnet.subnet-backend.id
+  subnet_id            = aws_subnet.subnet-backend.id
+  user_data            = file("./install-java.sh")
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.id
 }

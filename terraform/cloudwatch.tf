@@ -21,7 +21,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_alarm" {
   period                    = "60"
   statistic                 = "Sum"
   threshold                 = "3"
-  alarm_description         = "This metric monitors failed requests to the API Gateway"
+  alarm_description         = "This metric monitors forbidden requests to the API Gateway"
   insufficient_data_actions = []
 
   dimensions = {

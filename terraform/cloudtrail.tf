@@ -5,7 +5,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   s3_bucket_name = aws_s3_bucket.cloudtrail-bucket.id
   s3_key_prefix  = "CloudTrailLogs"
   # include_global_service_events = false
-  # kms_key_id                    = aws_kms_key.cloudtrail-key.arn
+  kms_key_id = aws_kms_key.log_bucket_key.arn
 
   event_selector {
     read_write_type           = "All"
