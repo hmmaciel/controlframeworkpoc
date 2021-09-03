@@ -27,6 +27,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 resource "aws_s3_bucket" "cloudtrail-bucket" {
   bucket        = "framework-poc-cloudtrail-logs-s3"
   force_destroy = true
+  acl           = "private"
 
   policy = <<POLICY
 {
